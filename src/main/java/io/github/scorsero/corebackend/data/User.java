@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * Created by dim3coder on 8/25/17.
  */
-@Entity(name = "user")
+@Entity(name = "score_user")
 public class User implements UserDetails {
 
   @Id
