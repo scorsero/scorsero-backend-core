@@ -25,11 +25,6 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
-
-ext {
-	keycloakVersion = '3.2.1.Final'
-}
-
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-actuator-docs')
@@ -39,12 +34,12 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-integration')
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
-	compile('org.keycloak:keycloak-spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-mail')
 	compile('org.springframework.retry:spring-retry')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('io.jsonwebtoken:jjwt:0.7.0')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
 	runtime('org.postgresql:postgresql')
@@ -53,10 +48,5 @@ dependencies {
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 	testCompile('org.springframework.security:spring-security-test')
-}
 
-dependencyManagement {
-	imports {
-		mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
-	}
 }
