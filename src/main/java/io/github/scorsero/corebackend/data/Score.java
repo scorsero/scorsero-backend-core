@@ -1,11 +1,13 @@
 package io.github.scorsero.corebackend.data;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.hibernate.annotations.ColumnDefault;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 /**
  * Created by dim3coder on 8/25/17.
@@ -24,6 +26,8 @@ public class Score {
   private Boolean completed;
   @Column(name = "completion_time")
   private Long completionTime;
+  @Column(name = "update_time")
+  private Long updateTime;
 
   public Score() {
   }
@@ -36,6 +40,17 @@ public class Score {
     this.completed = completed;
     this.completionTime = completionTime;
   }
+
+  @PreUpdate
+  protected void onUpdate() {
+    updateTime = new Date().getTime();
+  }
+
+  @PrePersist
+  protected void onCreate() {
+    updateTime = new Date().getTime();
+  }
+
 
   public Long getId() {
     return id;
@@ -83,5 +98,13 @@ public class Score {
 
   public void setCompletionTime(Long completionTime) {
     this.completionTime = completionTime;
+  }
+
+  public Long getUpdateTime() {
+    return updateTime;
+  }
+
+  public void setUpdateTime(Long updateTime) {
+    this.updateTime = updateTime;
   }
 }
