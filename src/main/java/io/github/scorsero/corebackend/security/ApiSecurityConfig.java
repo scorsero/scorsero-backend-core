@@ -26,11 +26,11 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests()
         .antMatchers("/").permitAll()
-        .antMatchers(HttpMethod.POST, "/login").permitAll()
+        .antMatchers(HttpMethod.POST, "/user/login").permitAll()
         .antMatchers(HttpMethod.POST,"/user/register").permitAll()
         .anyRequest().authenticated()
         .and()
-        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+        .addFilterBefore(new JWTLoginFilter("/user/login", authenticationManager()),
             UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(new JWTAuthenticationFilter(),
             UsernamePasswordAuthenticationFilter.class);
