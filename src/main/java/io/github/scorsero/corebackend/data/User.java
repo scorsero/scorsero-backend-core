@@ -30,15 +30,20 @@ public class User implements UserDetails {
   private Long creationTime;
   @Column(name = "update_time")
   private Long updateTime;
+  private Boolean enabled;
+  private Boolean locked;
 
   public User() {
   }
 
-  public User(String username, String email, String password, Long creationTime) {
+  public User(String username, String email, String password, Long creationTime,
+      Boolean enabled, Boolean locked) {
     this.username = username;
     this.email = email;
     this.password = password;
     this.creationTime = creationTime;
+    this.enabled = enabled;
+    this.locked = locked;
   }
 
   public Long getId() {
@@ -57,20 +62,6 @@ public class User implements UserDetails {
     this.username = username;
   }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
 
   @PreUpdate
   protected void onUpdate() {
@@ -85,6 +76,21 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return !locked;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
     return true;
   }
 
@@ -123,5 +129,13 @@ public class User implements UserDetails {
 
   public void setUpdateTime(Long updateTime) {
     this.updateTime = updateTime;
+  }
+
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public void setLocked(Boolean locked) {
+    this.locked = locked;
   }
 }

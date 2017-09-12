@@ -31,6 +31,8 @@ public class RegistrationController {
         user.getPassword() == null) {
       throw new BadCredentialsException("Username, email and password are required fields");
     }
+    user.setEnabled(true);
+    user.setLocked(false);
     repository.save(user);
     return user;
   }

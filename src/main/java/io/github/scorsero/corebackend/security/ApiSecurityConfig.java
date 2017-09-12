@@ -1,5 +1,6 @@
 package io.github.scorsero.corebackend.security;
 
+import io.github.scorsero.corebackend.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,10 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserDetailsService userDetailsService;
+  private UserRepository repository;
 
   @Autowired()
-  public ApiSecurityConfig(UserDetailsService userDetailsService) {
+  public ApiSecurityConfig(UserDetailsService userDetailsService, UserRepository repository) {
     this.userDetailsService = userDetailsService;
+    this.repository = repository;
   }
 
   @Override
@@ -27,12 +30,12 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf().disable().authorizeRequests()
         .antMatchers("/").permitAll()
         .antMatchers(HttpMethod.POST, "/user/login").permitAll()
-        .antMatchers(HttpMethod.POST,"/user/register").permitAll()
+        .antMatchers(HttpMethod.POST, "/user/register").permitAll()
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(new JWTLoginFilter("/user/login", authenticationManager()),
             UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(new JWTAuthenticationFilter(),
+        .addFilterBefore(new JWTAuthenticationFilter(repository),
             UsernamePasswordAuthenticationFilter.class);
   }
 

@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
  */
 public class TokenAuthenticationService {
 
-  private static final long EXPIRATION_TIME = 864_000_000;
+  private static final long EXPIRATION_TIME = 30758400000L; // 1 year
   private static final String SECRET = "secret";
   private static final String TOKEN_PREFIX = "scorsero";
   private static final String HEADER_STRING = "Authorization";
