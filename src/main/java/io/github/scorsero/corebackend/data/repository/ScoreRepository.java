@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ScoreRepository extends JpaRepository<Score, Long> {
 
-  public List<Score> getAllByUserId(Long userId);
+  List<Score> getAllByUserId(Long userId);
 
+  List<Score> getAllByUserIdEqualsAndUpdateTimeAfter(Long userId, Long completeTime);
 
 }

@@ -30,9 +30,15 @@ public class ScoreController {
   }
 
   @GetMapping
-  public List<Score> getScores(Principal principal) {
-    return userRepository.findByUsername(principal.getName()).getScores();
+  public List<Score> getScores(@RequestParam(required = false) Long updateTime, Principal principal) {
+    User user = userRepository.findByUsername(principal.getName());
+    if(updateTime != null) {
+      return repository.getAllByUserIdEqualsAndUpdateTimeAfter(user.getId(), updateTime);
+    } else
+      return userRepository.findByUsername(principal.getName()).getScores();
   }
+
+
 
   @PostMapping
   public Score saveScore(@RequestBody Score score, Principal principal) {
