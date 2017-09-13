@@ -3,15 +3,11 @@ package io.github.scorsero.corebackend.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import java.util.List;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,6 +40,9 @@ public class User implements UserDetails {
 
   @Column(name = "update_time")
   private Long updateTime;
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Score> scores;
 
   private Boolean enabled;
   private Boolean locked;
@@ -152,5 +151,13 @@ public class User implements UserDetails {
 
   public void setLocked(Boolean locked) {
     this.locked = locked;
+  }
+
+  public List<Score> getScores() {
+    return scores;
+  }
+
+  public void setScores(List<Score> scores) {
+    this.scores = scores;
   }
 }

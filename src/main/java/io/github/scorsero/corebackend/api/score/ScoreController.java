@@ -31,7 +31,7 @@ public class ScoreController {
 
   @GetMapping
   public List<Score> getScores(Principal principal) {
-    return repository.getAllByUserId(userRepository.findByUsername(principal.getName()).getId());
+    return userRepository.findByUsername(principal.getName()).getScores();
   }
 
   @PostMapping
