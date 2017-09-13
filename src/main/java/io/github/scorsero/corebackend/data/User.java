@@ -10,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,19 +21,30 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Created by dim3coder on 8/25/17.
  */
 @Entity(name = "score_user")
+@JsonIgnoreProperties(value = {"id","authorities","enabled","locked"},allowGetters = true)
 public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+
   @Column(unique = true)
+  @NotNull
   private String username;
+
+  @Email
+  @NotNull
   private String email;
+
+  @NotNull
   private String password;
+
   @Column(name = "create_time")
   private Long creationTime;
+
   @Column(name = "update_time")
   private Long updateTime;
+
   private Boolean enabled;
   private Boolean locked;
 

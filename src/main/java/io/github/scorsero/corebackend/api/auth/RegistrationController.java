@@ -2,9 +2,8 @@ package io.github.scorsero.corebackend.api.auth;
 
 import io.github.scorsero.corebackend.data.User;
 import io.github.scorsero.corebackend.data.repository.UserRepository;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +24,7 @@ public class RegistrationController {
   }
 
   @PostMapping
-  public User register(@RequestBody User user) {
-    if (user.getUsername() == null ||
-        user.getEmail() == null ||
-        user.getPassword() == null) {
-      throw new BadCredentialsException("Username, email and password are required fields");
-    }
+  public User register(@RequestBody @Validated User user) {
     user.setEnabled(true);
     user.setLocked(false);
     repository.save(user);
