@@ -9,11 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by dim3coder on 8/28/17.
@@ -39,13 +35,13 @@ public class ScoreController {
   }
 
   @PostMapping
-  public Boolean saveScore(@RequestBody Score score, Principal principal) {
+  public Score saveScore(@RequestBody Score score, Principal principal) {
     User user = userRepository.findByUsername(principal.getName());
     score.setUserId(user.getId());
-    repository.save(score);
+    score = repository.save(score);
     repository.flush();
-    logger.debug("Score {} saved by user with id {}", score.getId(), score.getUserId());
-    return true;
+    logger.debug("Score {} saved by user with id {}", score.toString(), score.getUserId());
+    return score;
   }
 
 }

@@ -1,5 +1,7 @@
 package io.github.scorsero.corebackend.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.PreUpdate;
  * Created by dim3coder on 8/25/17.
  */
 @Entity(name = "score")
+@JsonIgnoreProperties(value = "userId",allowGetters = true)
 public class Score {
 
   @Id
@@ -106,5 +109,18 @@ public class Score {
 
   public void setUpdateTime(Long updateTime) {
     this.updateTime = updateTime;
+  }
+
+  @Override
+  public String toString() {
+    return "Score{" +
+            "id=" + id +
+            ", userId=" + userId +
+            ", priority=" + priority +
+            ", creationTime=" + creationTime +
+            ", completed=" + completed +
+            ", completionTime=" + completionTime +
+            ", updateTime=" + updateTime +
+            '}';
   }
 }

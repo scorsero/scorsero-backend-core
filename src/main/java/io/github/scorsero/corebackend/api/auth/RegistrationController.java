@@ -27,7 +27,6 @@ public class RegistrationController {
   public User register(@RequestBody @Validated User user) {
     user.setEnabled(true);
     user.setLocked(false);
-    repository.save(user);
-    return user;
+    return repository.save(user);
   }
 }
