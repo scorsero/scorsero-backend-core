@@ -31,17 +31,20 @@ public class Score {
   private Long completionTime;
   @Column(name = "update_time")
   private Long updateTime;
+  @Column(name = "target_time")
+  private Long targetTime;
 
   public Score() {
   }
 
   public Score(Long userId, Integer priority, Long creationTime, Boolean completed,
-      Long completionTime) {
+               Long completionTime, Long targetTime) {
     this.userId = userId;
     this.priority = priority;
     this.creationTime = creationTime;
     this.completed = completed;
     this.completionTime = completionTime;
+      this.targetTime = targetTime;
   }
 
   @PreUpdate
@@ -111,6 +114,14 @@ public class Score {
     this.updateTime = updateTime;
   }
 
+  public Long getTargetTime() {
+    return targetTime;
+  }
+
+  public void setTargetTime(Long targetTime) {
+    this.targetTime = targetTime;
+  }
+
   @Override
   public String toString() {
     return "Score{" +
@@ -121,6 +132,8 @@ public class Score {
             ", completed=" + completed +
             ", completionTime=" + completionTime +
             ", updateTime=" + updateTime +
+            ", targetTime=" + targetTime +
             '}';
   }
+
 }
