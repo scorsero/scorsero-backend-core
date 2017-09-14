@@ -3,6 +3,7 @@ package io.github.scorsero.corebackend.api.auth;
 import io.github.scorsero.corebackend.data.User;
 import io.github.scorsero.corebackend.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +25,9 @@ public class RegistrationController {
   }
 
   @PostMapping
-  public User register(@RequestBody @Validated User user) {
+  public ResponseEntity<User> register(@RequestBody @Validated User user) {
     user.setEnabled(true);
     user.setLocked(false);
-    return repository.save(user);
+    return ResponseEntity.ok(repository.save(user));
   }
 }

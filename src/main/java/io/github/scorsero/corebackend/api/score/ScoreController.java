@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -30,24 +31,26 @@ public class ScoreController {
   }
 
   @GetMapping
-  public List<Score> getScores(@RequestParam(required = false) Long updateTime, Principal principal) {
+  public ResponseEntity<List<Score>> getScores(@RequestParam(required = false) Long updateTime, Principal principal) {
     User user = userRepository.findByUsername(principal.getName());
+    List<Score> scores;
     if(updateTime != null) {
-      return repository.getAllByUserIdEqualsAndUpdateTimeAfter(user.getId(), updateTime);
+      scores = repository.getAllByUserIdEqualsAndUpdateTimeAfter(user.getId(), updateTime);
     } else
-      return userRepository.findByUsername(principal.getName()).getScores();
+      scores = userRepository.findByUsername(principal.getName()).getScores();
+    return ResponseEntity.ok(scores);
   }
 
 
 
   @PostMapping
-  public Score saveScore(@RequestBody Score score, Principal principal) {
+  public ResponseEntity<Score> saveScore(@RequestBody Score score, Principal principal) {
     User user = userRepository.findByUsername(principal.getName());
     score.setUserId(user.getId());
     score = repository.save(score);
     repository.flush();
     logger.debug("Score {} saved by user with id {}", score.toString(), score.getUserId());
-    return score;
+    return ResponseEntity.ok(score);
   }
 
 }
