@@ -1,9 +1,13 @@
 package io.github.scorsero.corebackend.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "score_extension")
 public class ScoreExtension {
@@ -12,10 +16,17 @@ public class ScoreExtension {
   @GeneratedValue
   private Long id;
 
+  @NotNull
   @Column(name = "score_id")
   private Long scoreId;
 
+  @NotNull
   private Long type;
+
+  @ManyToOne
+  @JoinColumn(name = "score_id",nullable = false,insertable = false, updatable = false)
+  @JsonIgnore
+  private Score score;
 
   public ScoreExtension() {
   }
