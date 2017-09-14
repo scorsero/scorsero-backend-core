@@ -22,10 +22,7 @@ services:
     ports:
       - "80:8080"
 #    command: tail -f /dev/null
-    command: java -jar ./build/libs/scorsero-backend-core-0.0.1-SNAPSHOT.jar
-#    command:        sh -c "python3 manage.py migrate && python3 manage.py loaddata initial.json && python3 manage.py runserver 0.0.0.0:8000"
-#    volumes:
-#      - ./server/j2j:/server/j2j
+    command: java -jar build/libs/scorsero_backend-0.0.1-SNAPSHOT.jar
     depends_on:
       - db
 
