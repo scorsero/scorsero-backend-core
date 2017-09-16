@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,13 +27,16 @@ public class User implements UserDetails {
 
   @Column(unique = true)
   @NotNull
+  @NotEmpty
   private String username;
 
   @Email
   @NotNull
+  @NotEmpty
   private String email;
 
   @NotNull
+  @NotEmpty
   private String password;
 
   @Column(name = "create_time")
