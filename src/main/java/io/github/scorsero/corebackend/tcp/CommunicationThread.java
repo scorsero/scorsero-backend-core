@@ -1,8 +1,8 @@
 package io.github.scorsero.corebackend.tcp;
 
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import io.github.scorsero.transport.Transport.TransportEnvelope;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -42,15 +42,10 @@ public class CommunicationThread extends Thread {
     while (socket.isConnected() && !shutdown) {
       try {
         buf = new byte[1024];
-        ByteOutputStream bos = new ByteOutputStream();
         while (socket.getInputStream().read(buf) != -1) {
-          bos.write(buf);
-          logger.debug("read {} bytes",bos.getCount());
-          buf = new byte[1024];
-        }
-        if (bos.getCount() > 0) {
-          TransportEnvelope transportEnvelope = TransportEnvelope.parseDelimitedFrom(bos.newInputStream());
+          TransportEnvelope transportEnvelope = TransportEnvelope.parseDelimitedFrom(new ByteArrayInputStream(buf));
           logger.debug("message is: {}", transportEnvelope.toString());
+          buf = new byte[1024];
         }
       } catch (IOException e) {
         shutdown = true;
