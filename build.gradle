@@ -39,6 +39,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('io.jsonwebtoken:jjwt:0.7.0')
+	compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.2.0'
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
 	runtime('org.postgresql:postgresql')
