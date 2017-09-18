@@ -2,7 +2,6 @@ package io.github.scorsero.corebackend.tcp;
 
 
 import io.github.scorsero.transport.Transport.TransportEnvelope;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -18,6 +17,7 @@ public class CommunicationThread extends Thread {
 
   @Value("${socket.timeout:2000}")
   private Integer timeout;
+  private Long updateTime;
 
   private Logger logger = LoggerFactory.getLogger(CommunicationThread.class);
 
@@ -31,7 +31,7 @@ public class CommunicationThread extends Thread {
   @Override
   public void run() {
     logger.debug("Socket connected: {}", socket.isConnected());
-    byte[] buf;
+    updateTime = System.currentTimeMillis();
     try {
       socket.setKeepAlive(true);
       socket.setSoTimeout(timeout);
@@ -39,13 +39,12 @@ public class CommunicationThread extends Thread {
       e.printStackTrace();
     }
     boolean shutdown = false;
-    while (socket.isConnected() && !shutdown) {
+    while (!shutdown && (System.currentTimeMillis()< updateTime+4000)) {
       try {
-        buf = new byte[1024];
-        while (socket.getInputStream().read(buf) != -1) {
-          TransportEnvelope transportEnvelope = TransportEnvelope.parseDelimitedFrom(new ByteArrayInputStream(buf));
-          logger.debug("message is: {}", transportEnvelope.toString());
-          buf = new byte[1024];
+        TransportEnvelope transportEnvelope;
+        while ((transportEnvelope = TransportEnvelope.parseDelimitedFrom(socket.getInputStream())) != null){
+          logger.debug("message is: {}", transportEnvelope.getTime());
+          updateTime = System.currentTimeMillis();
         }
       } catch (IOException e) {
         shutdown = true;
