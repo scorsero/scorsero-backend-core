@@ -3,6 +3,7 @@ package io.github.scorsero.corebackend.tcp;
 
 import io.github.scorsero.transport.Transport.TransportEnvelope;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import org.slf4j.Logger;
@@ -44,6 +45,10 @@ public class CommunicationThread extends Thread {
         TransportEnvelope transportEnvelope;
         while ((transportEnvelope = TransportEnvelope.parseDelimitedFrom(socket.getInputStream())) != null){
           logger.debug("message is: {}", transportEnvelope.getTime());
+          OutputStream outputStream = socket.getOutputStream();
+          TransportEnvelope responseTransport = transportEnvelope.toBuilder()
+              .setTime(System.currentTimeMillis()).build();
+          responseTransport.writeDelimitedTo(outputStream);
           updateTime = System.currentTimeMillis();
         }
       } catch (IOException e) {
