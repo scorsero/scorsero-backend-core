@@ -22,8 +22,10 @@ public class CommunicationThread extends Thread {
 
   @Autowired
   private UserRepository repository;
+  @Autowired
+  private EnvelopeRouter router;
 
-  @Value("${socket.timeout:2000}")
+  @Value("${socket.timeout:120000}")
   private Integer timeout;
   private Long updateTime;
 
@@ -47,23 +49,12 @@ public class CommunicationThread extends Thread {
       e.printStackTrace();
     }
     boolean shutdown = false;
-    while (!shutdown && (System.currentTimeMillis()< updateTime+4000)) {
+    while (!shutdown && (System.currentTimeMillis() < updateTime+15000)) {
       try {
         TransportEnvelope transportEnvelope;
         while ((transportEnvelope = TransportEnvelope.parseDelimitedFrom(socket.getInputStream())) != null){
           // TODO: 9/19/17 Move deserialization to structures
-          switch (transportEnvelope.getType()) {
-            case LOGIN_REQUEST:
-              LoginRequest request = LoginRequest.parseFrom(transportEnvelope.getData());
-              logger.debug("Login request by {} w/ password {}",request.getUsername(),request.getPassword());
-              User user = repository.findByUsername(request.getUsername());
-              if(user != null) {
-                logger.debug("User {} exists!",user.getUsername());
-                if(user.getPassword().equals(request.getPassword())){
-                  logger.debug("User {} authenticated",user.getUsername());
-                }
-              }
-          }
+          router.route(transportEnvelope);
           logger.debug("message is: {}", transportEnvelope.getTime());
           OutputStream outputStream = socket.getOutputStream();
           TransportEnvelope responseTransport = transportEnvelope.toBuilder()
@@ -71,8 +62,11 @@ public class CommunicationThread extends Thread {
           responseTransport.writeDelimitedTo(outputStream);
           updateTime = System.currentTimeMillis();
         }
+      } catch (SocketException e){
+        if(e.getMessage().equals("Connection reset")){
+          shutdown = true;
+        }
       } catch (IOException e) {
-        shutdown = true;
         e.printStackTrace();
       }
     }

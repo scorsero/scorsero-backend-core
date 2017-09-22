@@ -821,24 +821,14 @@ public final class Transport {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string username = 1;</code>
+     * <code>optional string token = 1;</code>
      */
-    java.lang.String getUsername();
+    java.lang.String getToken();
     /**
-     * <code>optional string username = 1;</code>
+     * <code>optional string token = 1;</code>
      */
     com.google.protobuf.ByteString
-        getUsernameBytes();
-
-    /**
-     * <code>optional string password = 2;</code>
-     */
-    java.lang.String getPassword();
-    /**
-     * <code>optional string password = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getPasswordBytes();
+        getTokenBytes();
   }
   /**
    * Protobuf type {@code transport.LoginRequest}
@@ -852,8 +842,7 @@ public final class Transport {
       super(builder);
     }
     private LoginRequest() {
-      username_ = "";
-      password_ = "";
+      token_ = "";
     }
 
     @java.lang.Override
@@ -884,13 +873,7 @@ public final class Transport {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              username_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              password_ = s;
+              token_ = s;
               break;
             }
           }
@@ -916,68 +899,34 @@ public final class Transport {
               io.github.scorsero.transport.Transport.LoginRequest.class, io.github.scorsero.transport.Transport.LoginRequest.Builder.class);
     }
 
-    public static final int USERNAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object username_;
+    public static final int TOKEN_FIELD_NUMBER = 1;
+    private volatile java.lang.Object token_;
     /**
-     * <code>optional string username = 1;</code>
+     * <code>optional string token = 1;</code>
      */
-    public java.lang.String getUsername() {
-      java.lang.Object ref = username_;
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        username_ = s;
+        token_ = s;
         return s;
       }
     }
     /**
-     * <code>optional string username = 1;</code>
+     * <code>optional string token = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getUsernameBytes() {
-      java.lang.Object ref = username_;
+        getTokenBytes() {
+      java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        username_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PASSWORD_FIELD_NUMBER = 2;
-    private volatile java.lang.Object password_;
-    /**
-     * <code>optional string password = 2;</code>
-     */
-    public java.lang.String getPassword() {
-      java.lang.Object ref = password_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        password_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>optional string password = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getPasswordBytes() {
-      java.lang.Object ref = password_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        password_ = b;
+        token_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -996,11 +945,8 @@ public final class Transport {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getUsernameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, username_);
-      }
-      if (!getPasswordBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, password_);
+      if (!getTokenBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, token_);
       }
     }
 
@@ -1009,11 +955,8 @@ public final class Transport {
       if (size != -1) return size;
 
       size = 0;
-      if (!getUsernameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, username_);
-      }
-      if (!getPasswordBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, password_);
+      if (!getTokenBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, token_);
       }
       memoizedSize = size;
       return size;
@@ -1031,10 +974,8 @@ public final class Transport {
       io.github.scorsero.transport.Transport.LoginRequest other = (io.github.scorsero.transport.Transport.LoginRequest) obj;
 
       boolean result = true;
-      result = result && getUsername()
-          .equals(other.getUsername());
-      result = result && getPassword()
-          .equals(other.getPassword());
+      result = result && getToken()
+          .equals(other.getToken());
       return result;
     }
 
@@ -1045,10 +986,8 @@ public final class Transport {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      hash = (37 * hash) + USERNAME_FIELD_NUMBER;
-      hash = (53 * hash) + getUsername().hashCode();
-      hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
-      hash = (53 * hash) + getPassword().hashCode();
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1167,9 +1106,7 @@ public final class Transport {
       }
       public Builder clear() {
         super.clear();
-        username_ = "";
-
-        password_ = "";
+        token_ = "";
 
         return this;
       }
@@ -1193,8 +1130,7 @@ public final class Transport {
 
       public io.github.scorsero.transport.Transport.LoginRequest buildPartial() {
         io.github.scorsero.transport.Transport.LoginRequest result = new io.github.scorsero.transport.Transport.LoginRequest(this);
-        result.username_ = username_;
-        result.password_ = password_;
+        result.token_ = token_;
         onBuilt();
         return result;
       }
@@ -1236,12 +1172,8 @@ public final class Transport {
 
       public Builder mergeFrom(io.github.scorsero.transport.Transport.LoginRequest other) {
         if (other == io.github.scorsero.transport.Transport.LoginRequest.getDefaultInstance()) return this;
-        if (!other.getUsername().isEmpty()) {
-          username_ = other.username_;
-          onChanged();
-        }
-        if (!other.getPassword().isEmpty()) {
-          password_ = other.password_;
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
           onChanged();
         }
         onChanged();
@@ -1270,140 +1202,71 @@ public final class Transport {
         return this;
       }
 
-      private java.lang.Object username_ = "";
+      private java.lang.Object token_ = "";
       /**
-       * <code>optional string username = 1;</code>
+       * <code>optional string token = 1;</code>
        */
-      public java.lang.String getUsername() {
-        java.lang.Object ref = username_;
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          username_ = s;
+          token_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>optional string token = 1;</code>
        */
       public com.google.protobuf.ByteString
-          getUsernameBytes() {
-        java.lang.Object ref = username_;
+          getTokenBytes() {
+        java.lang.Object ref = token_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          username_ = b;
+          token_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>optional string token = 1;</code>
        */
-      public Builder setUsername(
+      public Builder setToken(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        username_ = value;
+        token_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>optional string token = 1;</code>
        */
-      public Builder clearUsername() {
+      public Builder clearToken() {
         
-        username_ = getDefaultInstance().getUsername();
+        token_ = getDefaultInstance().getToken();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string username = 1;</code>
+       * <code>optional string token = 1;</code>
        */
-      public Builder setUsernameBytes(
+      public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        username_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object password_ = "";
-      /**
-       * <code>optional string password = 2;</code>
-       */
-      public java.lang.String getPassword() {
-        java.lang.Object ref = password_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          password_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string password = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getPasswordBytes() {
-        java.lang.Object ref = password_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          password_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string password = 2;</code>
-       */
-      public Builder setPassword(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        password_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string password = 2;</code>
-       */
-      public Builder clearPassword() {
-        
-        password_ = getDefaultInstance().getPassword();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string password = 2;</code>
-       */
-      public Builder setPasswordBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        password_ = value;
+        token_ = value;
         onChanged();
         return this;
       }
@@ -2581,13 +2444,13 @@ public final class Transport {
       ".transport.TransportEnvelope.EnvelopeTyp" +
       "e\022\014\n\004data\030\003 \001(\014\"L\n\014EnvelopeType\022\010\n\004PING\020" +
       "\000\022\021\n\rLOGIN_REQUEST\020\001\022\022\n\016LOGIN_RESPONSE\020\002" +
-      "\022\013\n\007MESSAGE\020\003\"2\n\014LoginRequest\022\020\n\010usernam" +
-      "e\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"6\n\rLoginRespon" +
-      "se\022\r\n\005token\030\001 \001(\t\022\026\n\016expirationTime\030\002 \001(" +
-      "\003\"E\n\017MessageEnvelope\022$\n\004type\030\001 \001(\0162\026.tra" +
-      "nsport.MessageType\022\014\n\004data\030\002 \001(\014*,\n\013Mess",
-      "ageType\022\n\n\006STATUS\020\000\022\021\n\rOPERATE_SCORE\020\001B\036" +
-      "\n\034io.github.scorsero.transportb\006proto3"
+      "\022\013\n\007MESSAGE\020\003\"\035\n\014LoginRequest\022\r\n\005token\030\001" +
+      " \001(\t\"6\n\rLoginResponse\022\r\n\005token\030\001 \001(\t\022\026\n\016" +
+      "expirationTime\030\002 \001(\003\"E\n\017MessageEnvelope\022" +
+      "$\n\004type\030\001 \001(\0162\026.transport.MessageType\022\014\n" +
+      "\004data\030\002 \001(\014*,\n\013MessageType\022\n\n\006STATUS\020\000\022\021",
+      "\n\rOPERATE_SCORE\020\001B\036\n\034io.github.scorsero." +
+      "transportb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2612,7 +2475,7 @@ public final class Transport {
     internal_static_transport_LoginRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_transport_LoginRequest_descriptor,
-        new java.lang.String[] { "Username", "Password", });
+        new java.lang.String[] { "Token", });
     internal_static_transport_LoginResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_transport_LoginResponse_fieldAccessorTable = new
