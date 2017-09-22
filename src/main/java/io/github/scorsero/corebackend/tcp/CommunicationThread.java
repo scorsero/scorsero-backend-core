@@ -5,6 +5,7 @@ import io.github.scorsero.corebackend.data.User;
 import io.github.scorsero.corebackend.data.repository.UserRepository;
 import io.github.scorsero.transport.Transport.LoginRequest;
 import io.github.scorsero.transport.Transport.TransportEnvelope;
+import io.github.scorsero.transport.Transport.TransportEnvelope.EnvelopeType;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -25,7 +26,7 @@ public class CommunicationThread extends Thread {
   @Autowired
   private EnvelopeRouter router;
 
-  @Value("${socket.timeout:120000}")
+  @Value("${socket.timeout:2000}")
   private Integer timeout;
   private Long updateTime;
 
@@ -58,6 +59,7 @@ public class CommunicationThread extends Thread {
           logger.debug("message is: {}", transportEnvelope.getTime());
           OutputStream outputStream = socket.getOutputStream();
           TransportEnvelope responseTransport = transportEnvelope.toBuilder()
+              .setType(EnvelopeType.LOGIN_RESPONSE)
               .setTime(System.currentTimeMillis()).build();
           responseTransport.writeDelimitedTo(outputStream);
           updateTime = System.currentTimeMillis();
