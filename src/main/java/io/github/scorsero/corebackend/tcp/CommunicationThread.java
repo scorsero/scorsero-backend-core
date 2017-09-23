@@ -1,9 +1,7 @@
 package io.github.scorsero.corebackend.tcp;
 
 
-import io.github.scorsero.corebackend.data.User;
 import io.github.scorsero.corebackend.data.repository.UserRepository;
-import io.github.scorsero.transport.Transport.LoginRequest;
 import io.github.scorsero.transport.Transport.TransportEnvelope;
 import io.github.scorsero.transport.Transport.TransportEnvelope.EnvelopeType;
 import java.io.IOException;
@@ -52,12 +50,18 @@ public class CommunicationThread extends Thread {
     boolean shutdown = false;
     while (!shutdown && (System.currentTimeMillis() < updateTime+15000)) {
       try {
+        OutputStream outputStream = socket.getOutputStream();
         TransportEnvelope transportEnvelope;
-        while ((transportEnvelope = TransportEnvelope.parseDelimitedFrom(socket.getInputStream())) != null){
+        while ((transportEnvelope = TransportEnvelope.parseDelimitedFrom(socket.getInputStream()))
+            != null) {
+          if(transportEnvelope.getType() == EnvelopeType.PING){
+            updateTime = transportEnvelope.getTime();
+            continue;
+          }
+
           // TODO: 9/19/17 Move deserialization to structures
           router.route(transportEnvelope);
           logger.debug("message is: {}", transportEnvelope.getTime());
-          OutputStream outputStream = socket.getOutputStream();
           TransportEnvelope responseTransport = transportEnvelope.toBuilder()
               .setType(EnvelopeType.LOGIN_RESPONSE)
               .setTime(System.currentTimeMillis()).build();
@@ -69,7 +73,15 @@ public class CommunicationThread extends Thread {
           shutdown = true;
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        if (System.currentTimeMillis() > updateTime + 10000) {
+          logger.debug("Pinging socket"+socket.toString());
+          try {
+            TransportEnvelope.newBuilder()
+                .setType(EnvelopeType.PING).setTime(System.currentTimeMillis()).build().writeDelimitedTo(socket.getOutputStream());
+          } catch (IOException e1) {
+            e1.printStackTrace();
+          }
+        }
       }
     }
     logger.debug("Connection destroyed");
