@@ -52,3 +52,10 @@ dependencies {
 	testCompile('org.springframework.security:spring-security-test')
 
 }
+
+task prepareDockerProperties(type: Copy) {
+	from('/run/secrets') {
+		include 'db.properties'
+	}
+	into projectDir.absolutePath+'/src/main/resources/'
+}
