@@ -164,4 +164,19 @@ public class User implements UserDetails {
   public void setScores(List<Score> scores) {
     this.scores = scores;
   }
+
+  @Override
+  public String toString() {
+    return  "User{" +
+            "id=" + id +
+            ", username=" + username +
+            ", email=" + email +
+            ", password=" + password +
+            ", creationTime=" + creationTime +
+            ", updateTime=" + updateTime +
+            ", enabled=" + enabled +
+            ", locked=" + locked +
+            ", scores=" + scores +
+            '}';
+  }
 }

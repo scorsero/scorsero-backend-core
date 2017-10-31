@@ -3,6 +3,8 @@ package io.github.scorsero.corebackend.api.auth;
 import io.github.scorsero.corebackend.api.auth.error.UserAlreadyExistException;
 import io.github.scorsero.corebackend.data.User;
 import io.github.scorsero.corebackend.data.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user/register")
 public class RegistrationController {
 
+  private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
   private UserRepository repository;
 
   @Autowired
@@ -30,9 +34,11 @@ public class RegistrationController {
   @PostMapping
   public ResponseEntity<?> register(@RequestBody @Validated User user)
       throws UserAlreadyExistException {
+    logger.trace("Score user: ", user.toString());
     user.setEnabled(true);
     user.setLocked(false);
     try {
+      logger.debug("Saving user");
       return ResponseEntity.ok(repository.save(user));
     } catch (DataIntegrityViolationException exception) {
       throw new UserAlreadyExistException("User already exist");

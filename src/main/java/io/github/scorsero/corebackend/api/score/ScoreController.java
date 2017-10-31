@@ -36,6 +36,7 @@ public class ScoreController {
     List<Score> scores;
     if(updateTime != null) {
       scores = repository.getAllByUserIdEqualsAndUpdateTimeAfter(user.getId(), updateTime);
+      logger.debug("Scores updated by user with id {}", user.getId());
     } else
       scores = userRepository.findByUsername(principal.getName()).getScores();
     return ResponseEntity.ok(scores);
