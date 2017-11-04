@@ -24,7 +24,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * Created by dim3coder on 8/25/17.
  */
-@Data
 @Entity(name = "score_user")
 @JsonIgnoreProperties(value = {"id", "authorities", "enabled", "locked"}, allowGetters = true)
 public class User implements UserDetails {
@@ -111,4 +110,76 @@ public class User implements UserDetails {
     return username;
   }
 
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Long getCreationTime() {
+    return creationTime;
+  }
+
+  public void setCreationTime(Long creationTime) {
+    this.creationTime = creationTime;
+  }
+
+  public Long getUpdateTime() {
+    return updateTime;
+  }
+
+  public void setUpdateTime(Long updateTime) {
+    this.updateTime = updateTime;
+  }
+
+  public List<Score> getScores() {
+    return scores;
+  }
+
+  public void setScores(List<Score> scores) {
+    this.scores = scores;
+  }
+
+  public List<Priority> getPriorities() {
+    return priorities;
+  }
+
+  public void setPriorities(List<Priority> priorities) {
+    this.priorities = priorities;
+  }
+
+  public Boolean getEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public Boolean getLocked() {
+    return locked;
+  }
+
+  public void setLocked(Boolean locked) {
+    this.locked = locked;
+  }
 }

@@ -1,5 +1,6 @@
 package io.github.scorsero.corebackend.api.score;
 
+import io.github.scorsero.corebackend.api.auth.UserSession;
 import io.github.scorsero.corebackend.data.Score;
 import io.github.scorsero.corebackend.data.User;
 import io.github.scorsero.corebackend.data.repository.ScoreRepository;
@@ -10,7 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by dim3coder on 8/28/17.
@@ -25,22 +31,26 @@ public class ScoreController {
   private final UserRepository userRepository;
 
   @Autowired
+  UserSession session;
+
+  @Autowired
   public ScoreController(ScoreRepository repository, UserRepository userRepository) {
     this.repository = repository;
     this.userRepository = userRepository;
   }
 
   @GetMapping
-  public ResponseEntity<List<Score>> getScores(@RequestParam(required = false) Long updateTime, Principal principal) {
-    User user = userRepository.findByUsername(principal.getName());
+  public ResponseEntity<List<Score>> getScores(@RequestParam(required = false) Long updateTime,
+      Principal principal) {
+    User user = session.getCurrentUser();
     List<Score> scores;
-    if(updateTime != null) {
+    if (updateTime != null) {
       scores = repository.getAllByUserIdEqualsAndUpdateTimeAfter(user.getId(), updateTime);
-    } else
+    } else {
       scores = userRepository.findByUsername(principal.getName()).getScores();
+    }
     return ResponseEntity.ok(scores);
   }
-
 
 
   @PostMapping
