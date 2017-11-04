@@ -1,14 +1,21 @@
 package io.github.scorsero.corebackend.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +24,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * Created by dim3coder on 8/25/17.
  */
+@Data
 @Entity(name = "score_user")
-@JsonIgnoreProperties(value = {"id","authorities","enabled","locked"},allowGetters = true)
+@JsonIgnoreProperties(value = {"id", "authorities", "enabled", "locked"}, allowGetters = true)
 public class User implements UserDetails {
 
   @Id
@@ -44,41 +52,17 @@ public class User implements UserDetails {
 
   @Column(name = "update_time")
   private Long updateTime;
+
   @OneToMany(mappedBy = "user")
   @JsonIgnore
   private List<Score> scores;
 
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Priority> priorities;
+
   private Boolean enabled;
   private Boolean locked;
-
-  public User() {
-  }
-
-  public User(String username, String email, String password, Long creationTime,
-      Boolean enabled, Boolean locked) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.creationTime = creationTime;
-    this.enabled = enabled;
-    this.locked = locked;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
 
 
   @PreUpdate
@@ -112,56 +96,19 @@ public class User implements UserDetails {
     return true;
   }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return new ArrayList<>();
   }
 
+  @Override
   public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  @Override
+  public String getUsername() {
+    return username;
   }
 
-  public Long getCreationTime() {
-    return creationTime;
-  }
-
-  public void setCreationTime(Long creationTime) {
-    this.creationTime = creationTime;
-  }
-
-  public Long getUpdateTime() {
-    return updateTime;
-  }
-
-  public void setUpdateTime(Long updateTime) {
-    this.updateTime = updateTime;
-  }
-
-  public void setEnabled(Boolean enabled) {
-    this.enabled = enabled;
-  }
-
-  public void setLocked(Boolean locked) {
-    this.locked = locked;
-  }
-
-  public List<Score> getScores() {
-    return scores;
-  }
-
-  public void setScores(List<Score> scores) {
-    this.scores = scores;
-  }
 }
