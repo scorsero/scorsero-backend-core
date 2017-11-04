@@ -10,4 +10,6 @@ public interface PriorityRepository extends JpaRepository<Priority, Long> {
 
   List<Priority> findAllByUserId(Long userId);
 
+  Priority findByIdAndUserId(Long id, Long userId);
+
 }

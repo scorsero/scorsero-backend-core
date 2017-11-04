@@ -17,11 +17,12 @@ class UserSession {
 
   private User user
 
-  public User getCurrentUser() {
+  public User getUser() {
     if (user == null) {
       def authentication = SecurityContextHolder.getContext().getAuthentication()
       String userName = authentication.getName()
       user = userRepository.findByUsername(userName);
     }
+    return user
   }
 }

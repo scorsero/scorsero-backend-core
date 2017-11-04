@@ -42,7 +42,7 @@ public class ScoreController {
   @GetMapping
   public ResponseEntity<List<Score>> getScores(@RequestParam(required = false) Long updateTime,
       Principal principal) {
-    User user = session.getCurrentUser();
+    User user = session.getUser();
     List<Score> scores;
     if (updateTime != null) {
       scores = repository.getAllByUserIdEqualsAndUpdateTimeAfter(user.getId(), updateTime);
