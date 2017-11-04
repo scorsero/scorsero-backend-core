@@ -156,7 +156,7 @@ public class User implements UserDetails {
   public void setScores(List<Score> scores) {
     this.scores = scores;
   }
-
+  
   public List<Priority> getPriorities() {
     return priorities;
   }
