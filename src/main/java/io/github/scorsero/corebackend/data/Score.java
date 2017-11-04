@@ -2,15 +2,19 @@ package io.github.scorsero.corebackend.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by dim3coder on 8/25/17.
  */
 @Entity(name = "score")
-@JsonIgnoreProperties(value = {"userId"},allowGetters = true)
+@JsonIgnoreProperties(value = {"userId"}, allowGetters = true)
 public class Score {
 
   @Id
@@ -29,33 +33,23 @@ public class Score {
   @Column(name = "target_time")
   private Long targetTime;
   @ManyToOne
-  @JoinColumn(name = "user_id",nullable = false,insertable = false, updatable = false)
+  @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
   @JsonIgnore
   private User user;
 
-  public Score() {
+  @Override
+  public String toString() {
+    return "Score{" +
+        "id=" + id +
+        ", userId=" + userId +
+        ", priority=" + priority +
+        ", creationTime=" + creationTime +
+        ", completed=" + completed +
+        ", completionTime=" + completionTime +
+        ", updateTime=" + updateTime +
+        ", targetTime=" + targetTime +
+        '}';
   }
-
-  public Score(Long userId, Integer priority, Long creationTime, Boolean completed,
-               Long completionTime, Long targetTime) {
-    this.userId = userId;
-    this.priority = priority;
-    this.creationTime = creationTime;
-    this.completed = completed;
-    this.completionTime = completionTime;
-      this.targetTime = targetTime;
-  }
-
-  @PreUpdate
-  protected void onUpdate() {
-    updateTime = new Date().getTime();
-  }
-
-  @PrePersist
-  protected void onCreate() {
-    updateTime = new Date().getTime();
-  }
-
 
   public Long getId() {
     return id;
@@ -127,19 +121,5 @@ public class Score {
 
   public void setUser(User user) {
     this.user = user;
-  }
-
-  @Override
-  public String toString() {
-    return "Score{" +
-            "id=" + id +
-            ", userId=" + userId +
-            ", priority=" + priority +
-            ", creationTime=" + creationTime +
-            ", completed=" + completed +
-            ", completionTime=" + completionTime +
-            ", updateTime=" + updateTime +
-            ", targetTime=" + targetTime +
-            '}';
   }
 }

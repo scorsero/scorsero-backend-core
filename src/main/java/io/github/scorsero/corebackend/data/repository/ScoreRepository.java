@@ -13,4 +13,6 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
 
   List<Score> getAllByUserIdEqualsAndUpdateTimeAfter(Long userId, Long completeTime);
 
+  Score findByIdAndUserId(Long id, Long userId);
+
 }
