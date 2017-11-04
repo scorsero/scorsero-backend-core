@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
-import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
@@ -105,11 +104,18 @@ public class User implements UserDetails {
     return password;
   }
 
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
   @Override
   public String getUsername() {
     return username;
   }
 
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   public Long getId() {
     return id;
@@ -119,20 +125,12 @@ public class User implements UserDetails {
     this.id = id;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
   public String getEmail() {
     return email;
   }
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
   }
 
   public Long getCreationTime() {
