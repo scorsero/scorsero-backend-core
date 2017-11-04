@@ -35,7 +35,7 @@ class PriorityController {
     if (item != null) {
       return ResponseEntity.ok(repository.save(priority))
     }
-    return ResponseEntity.notFound()
+    return ResponseEntity.notFound().build()
   }
 
   @DeleteMapping
@@ -45,6 +45,6 @@ class PriorityController {
       repository.delete(item);
       return ResponseEntity.ok(item)
     }
-    return ResponseEntity.notFound();
+    return ResponseEntity.notFound().build()
   }
 }
